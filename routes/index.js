@@ -1,7 +1,12 @@
-const route = require("express").Router();
-
+const router = require("express").Router();
 const userRoutes = require("./users");
+const clothingItemRoutes = require("./clothingItems");
+const { NOT_FOUND } = require("../utils/statusCodes");
 
-route.use("/users", userRoutes);
+router.use("/users", userRoutes);
+router.use("/items", clothingItemRoutes);
+router.use((req, res) => {
+    res.status(NOT_FOUND).send({ message: "Route not found" });
+});
 
-module.exports = route;
+module.exports = router;
