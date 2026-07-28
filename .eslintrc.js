@@ -20,6 +20,10 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "no-console": ["warn", { allow: ["error"] }],
+    "no-console": [
+      "error",
+       { 
+        allow: ["_id"] 
+      }],
   },
 };

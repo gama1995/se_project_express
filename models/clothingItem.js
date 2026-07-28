@@ -5,6 +5,8 @@ const clothingItemSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    minlength: 2,
+    maxlength: 30,
   },
   weather: {
     type: String,
@@ -18,7 +20,7 @@ const clothingItemSchema = new mongoose.Schema({
       validator: (value) => {
         return isValidUrl(value);
       },
-      message: "Invalid image URL"
+      message: "Invalid image URL",
     },
   },
   owner: {
@@ -28,11 +30,19 @@ const clothingItemSchema = new mongoose.Schema({
   },
   likes: [
     {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-    default: [],
-  },
-],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      default: [],
+    },
+  ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    clothingItemSchema: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "clothingItem",  
+    }
 });
 
 module.exports = mongoose.model("item", clothingItemSchema);
