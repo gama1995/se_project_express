@@ -10,7 +10,9 @@ const {
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(OK).send(items))
-    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send({ message: err.message }));
+    .catch(() => res
+    .status(INTERNAL_SERVER_ERROR)
+    .send({ message: "An error message has occurred on the server."}));
 };
 
 const createItem = (req, res) => {
@@ -20,9 +22,9 @@ const createItem = (req, res) => {
     .then((item) => res.status(CREATED).send(item))
     .catch((err) => {
       if (err.name === "ValidationError" || err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "An error message has occurred on the server." });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: "An error message has occurred on the server." });
     });
 };
 
@@ -39,7 +41,7 @@ const deleteItem = (req, res) => {
       if (err.name === "CastError") {
         return res.status(BAD_REQUEST).send({ message: "Invalid clothing item ID" });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: "An error message has occurred on the server." });
     });
 };
 
@@ -61,7 +63,7 @@ const likeItem = (req, res) => {
       if (err.name === "CastError" || err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({ message: "Invalid ID" });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: "An error message has occurred on the server." });
     });
 };
 
@@ -83,7 +85,7 @@ const dislikeItem = (req, res) => {
       if (err.name === "CastError" || err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({ message: "Invalid ID" });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: "An error message has occurred on the server." });
     });
 };
 

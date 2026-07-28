@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const isValidUrl = require("../utils/isValidUrl");
+const validator = require("validator");
 
 const clothingItemSchema = new mongoose.Schema({
   name: {
@@ -18,7 +18,7 @@ const clothingItemSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => {
-        return isValidUrl(value);
+        validator.isURL(value);
       },
       message: "Invalid image URL",
     },
@@ -39,10 +39,6 @@ const clothingItemSchema = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
-    clothingItemSchema: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "clothingItem",  
-    }
 });
 
-module.exports = mongoose.model("item", clothingItemSchema);
+module.exports = mongoose.model("clothingItem", clothingItemSchema);

@@ -1,4 +1,4 @@
-const user = require("../models/User");
+const User = require("../models/user");
 const {
   OK,
   CREATED,
@@ -8,7 +8,7 @@ const {
 } = require("../utils/statusCodes");
 
 const getUsers = (req, res) => {
-  user.find({})
+  User.find({})
     .then((users) => res.status(OK).send(users))
     .catch(() => res
     .status(INTERNAL_SERVER_ERROR)
@@ -18,7 +18,7 @@ const getUsers = (req, res) => {
 const createUser = (req, res) => {
   const { name, avatar } = req.body;
 
-  user.create({ name, avatar })
+  User.create({ name, avatar })
     .then((user) => res.status(CREATED).send(user))
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -35,11 +35,10 @@ const createUser = (req, res) => {
 const getUser = (req, res) => {
   const { userId } = req.params;
 
-  user.findById(userId)
+  User.findById(userId)
     .orFail()
     .then((user) => res.status(OK).send(user))
     .catch((err) => {
-      console.error(err);
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({ message: "User not found" });
       }
