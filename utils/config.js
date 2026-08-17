@@ -1,5 +1,5 @@
-const { NOD_ENV, JWT_SECTRET } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = {
-    JWT_SECTRET: NOD_ENV === "production" ? JWT_SECTRET : "dev-secret",
+    JWT_SECRET: NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
 };

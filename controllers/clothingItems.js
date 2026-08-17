@@ -69,11 +69,11 @@ const deleteItem = (req, res) => {
 
 const likeItem = (req, res) => {
   const { itemId } = req.params;
-  const { userId } = req.body;
+  
 
   ClothingItem.findByIdAndUpdate(
     itemId,
-    { $addToSet: { likes: userId } },
+    { $addToSet: { likes: req.user._id } },
     { new: true, runValidators: true }
   )
     .orFail()

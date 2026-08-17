@@ -54,13 +54,21 @@ const login = (req, res) => {
 
       res.status(OK).send({ token });
     })
-    .catch(() => res
-      .status(UNAUTHORIZED)
-      .send({ message: "Incorrect email or password" }));
+    .catch((err) => {
+         if (err.message === "Incorrect email or password") {
+        return res.status(UNAUTHORIZED).send({
+          message: "Incorrect email or password",
+        });
+      }
+
+      return res.status(INTERNAL_SERVER_ERROR).send({
+        message: "An error has occurred on the server.",
+      });
+    });
 };
 
 const getCurrentUser = (req, res) => {
-  User.findById(req.user["_id"])
+  User.findById(req.user._id)
     .orFail()
     .then((user) => res.status(OK).send(user))
     .catch((err) => {

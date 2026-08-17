@@ -17,13 +17,6 @@ mongoose
     console.error(err);
   });
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "6a6152065713738c1c7f3ba1",
-  };
-  next();
-});
-
 app.use(cors());
 app.use(express.json());
 app.use("/", mainRouter);
