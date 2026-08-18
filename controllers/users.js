@@ -48,7 +48,7 @@ const login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user["_id"] }, JWT_SECRET, {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
 
@@ -88,7 +88,7 @@ const updateProfile = (req, res) => {
   const { name, avatar } = req.body;
 
   User.findByIdAndUpdate(
-    req.user["_id"],
+    req.user._id,
     { name, avatar },
     { new: true, runValidators: true },
   )
