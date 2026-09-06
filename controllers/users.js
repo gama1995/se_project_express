@@ -13,22 +13,30 @@ const {
 } = require("../utils/statusCodes");
 
 const createUser = (req, res) => {
+console.log("SIGNUP BODY:", req.body);
+
   const { name, avatar, email, password } = req.body;
 
   bcrypt
     .hash(password, 10)
-    .then((hash) => User.create({
+    .then((hash) => 
+      User.create({
       name,
       avatar,
       email,
       password: hash,
     }))
-    .then((user) => {
+
+     .then((user) => {
       const userData = user.toObject();
       delete userData.password;
       res.status(CREATED).send(userData);
     })
     .catch((err) => {
+console.log("CREATE USER ERROR:", err);
+console.log("ERROR CODE:", err.code);
+console.log("DUPLICATE VALUE:", err.keyValue);
+
       if (err.code === 11000) {
         return res
           .status(CONFLICT)
@@ -44,28 +52,48 @@ const createUser = (req, res) => {
 };
 
 const login = (req, res) => {
+console.log("LOGIN BODY:", req.body);
+
   const { email, password } = req.body;
 
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-        expiresIn: "7d",
-      });
+  console.log("LOGIN EMAIL:", email);
+  console.log("PASSWORD RECEIVED:", Boolean(password));
 
-      res.status(OK).send({ token });
-    })
-    .catch((err) => {
-         if (err.message === "Incorrect email or password") {
-        return res.status(UNAUTHORIZED).send({
-          message: "Incorrect email or password",
-        });
+ User.findOne({ email })
+    .select("+password")
+    .then((user) => {
+      console.log("USER FOUND:", user);
+      if (!user) {
+        return Promise.reject(new Error("Invalid email or password"));
       }
 
-      return res.status(INTERNAL_SERVER_ERROR).send({
-        message: "An error has occurred on the server.",
+      return bcrypt.compare(password, user.password).then((matched) => {
+         console.log("PASSWORD MATCHED:", matched);
+        
+        if (!matched) {
+          return Promise.reject(new Error("Invalid email or password"));
+        }
+
+        console.log("JWT SECRET EXISTS:", Boolean(JWT_SECRET));
+
+        const token = jwt.sign(
+          { _id: user._id },
+          JWT_SECRET,
+          { expiresIn: "7d" }
+        );
+
+        return res.send({ token });
+      });
+    })
+    .catch((err) => {
+console.log("LOGING ERROR:", err);
+
+      res.status(401).send({
+        message: "Incorrect email or password",
       });
     });
 };
+
 
 const getCurrentUser = (req, res) => {
   User.findById(req.user._id)
