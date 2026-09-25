@@ -5,8 +5,8 @@ const { JWT_SECRET } = require("../utils/config");
 const BadRequestError = require("../errors/bad-request-err");
 const ConflictError = require("../errors/conflict-err");
 const NotFoundError = require("../errors/not-found-err");
-const UnauthorizedError = require("../errors/unauthorized-err");
-const { OK, CREATED,} = require("../utils/statusCodes");
+const UnauthorizedError = require("../errors/unauthorized");
+const { OK, CREATED } = require("../utils/statusCodes");
 
 const createUser = (req, res, next) => {
 const { name, avatar, email, password } = req.body;
@@ -49,7 +49,6 @@ const login = (req, res, next) => {
       }
 
       return bcrypt.compare(password, user.password).then((matched) => {
-         console.log("PASSWORD MATCHED:", matched);
         
         if (!matched) {
           throw new UnauthorizedError("Invalid email or password");
@@ -83,7 +82,7 @@ const getCurrentUser = (req, res, next) => {
     });
 };
 
-const updateProfile = (req, res) => {
+const updateProfile = (req, res, next) => {
   const { name, avatar } = req.body;
 
   User.findByIdAndUpdate(

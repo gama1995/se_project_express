@@ -1,5 +1,8 @@
+// enlint-disable-next-line no-unused-vars */
 const errorHandler = (err, req, res, next) => {
-  console.error(err);
+if (typeof next !== "function") {
+  return;
+}
 
   const { statusCode = 500, message } = err;
 
