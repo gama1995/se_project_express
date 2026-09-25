@@ -2,6 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { errors } = require("celebrate");
+const {
+  requestlogger,
+  errorlogger,
+} = require("./middlewares/logger");
 
 const mainRouter = require("./routes/index");
 const errorHandler = require("./middlewares/error-handler");
@@ -23,6 +27,7 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
+app.use(requestlogger);
 
 app.use((req, res, next) => {
   req.user = {
@@ -40,6 +45,7 @@ app.get("/crash-test", () => {
 
 app.use("/", mainRouter);
 
+app.use(errorlogger);
 app.use(errors());
 app.use(errorHandler);
 
