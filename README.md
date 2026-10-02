@@ -31,7 +31,19 @@ This project is the back-end server for the WTWR (What to Wear?) application. It
 ### Testing
 Before committing your code, make sure you edit the file `sprint.txt` in the root folder. The file `sprint.txt` should contain the number of the sprint you're currently working on. For ex. 12
 
+## Frontend Repository
+
+https://github.com/gama1995/se_project_react
+
+## Deployed Applications
+
+Frontend:
+https://wtwr2026.chickenkiller.com
+
+Backend:
+https://api-wtwr2026.chickenkiller.com
+
 ## Project Pitch Video
  
- Check out [My Pitch Video] (https://drive.google.com/file/d/1Q8lHRDrouOUQLN1nVlwklu8fv0oC9nsI/view?usp=sharing), where I describe my 
+ Check out [My Pitch Video](https://drive.google.com/file/d/1Q8lHRDrouOUQLN1nVlwklu8fv0oC9nsI/view?usp=sharing), where I describe my 
  project and some challenges I faced while building it.
