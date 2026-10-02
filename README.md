@@ -33,5 +33,5 @@ Before committing your code, make sure you edit the file `sprint.txt` in the roo
 
 ## Project Pitch Video
  
- Check out [My Pitch Video](https://drive.google.com/file/d/13hxbfOiwPmSXmG0E9HPP2pGX6qWHxTb9/view?usp=sharing), where I describe my 
+ Check out [My Pitch Video] (https://drive.google.com/file/d/1Q8lHRDrouOUQLN1nVlwklu8fv0oC9nsI/view?usp=sharing), where I describe my 
  project and some challenges I faced while building it.
